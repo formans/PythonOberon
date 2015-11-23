@@ -308,8 +308,8 @@ class RISC(object):
       print h, hex(i), dis(self.ram[i << 2])
 
   def view(self):
-    if self.PC >= MemSize:
-      return
+##    if self.PC >= MemSize:
+##      return
     kw = self.__dict__.copy()
     kw['A'] = self.R[self.ira]
     #print '- ' * 40
@@ -319,11 +319,11 @@ class RISC(object):
     elif self.LDR:
       print '            Loading', 'R%(ira)i <- [0x%(addr)04x]' % kw
     # Print the registers.
-##    for i in range(0, 16, 2):
-##      reg0, reg1 = self.R[i], self.R[i + 1]
-##      print 'R%-2i = 0x%-8x' % (i + 1, reg1),
-##      print 'R%-2i = 0x%-8x' % (i, reg0)
-##    print
+    for i in range(0, 16, 2):
+      reg0, reg1 = self.R[i], self.R[i + 1]
+      print 'R%-2i = 0x%-8x' % (i + 1, reg1),
+      print 'R%-2i = 0x%-8x' % (i, reg0)
+    print
 
   def brief_view(self):
     return ('0x%08x : 0x%08x'

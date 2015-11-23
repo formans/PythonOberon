@@ -73,6 +73,11 @@ def Sub_imm(a, b, K, v=0, u=0): return make_F1(u, v, 9, a, b, K)
 def Mul_imm(a, b, K, v=0, u=0): return make_F1(u, v, 10, a, b, K)
 def Div_imm(a, b, K, v=0, u=0): return make_F1(u, v, 11, a, b, K)
 
+def Load_word(a, b, offset=0): return make_F2(0, 0, a, b, offset)
+def Load_byte(a, b, offset=0): return make_F2(0, 1, a, b, offset)
+def Store_word(a, b, offset=0): return make_F2(1, 0, a, b, offset)
+def Store_byte(a, b, offset=0): return make_F2(1, 1, a, b, offset)
+
 def MI(c): return make_F3(0, c)
 def PL(c): return make_F3(0, c, True)
 def EQ(c): return make_F3(1, c)
@@ -165,6 +170,22 @@ def make_F1(u, v, op, a, b, K):
     (b << 20) +
     (op << 16) +
     signed(K)
+    )
+
+
+def make_F2(u, v, a, b, offset):
+  assert bool(u) == u, repr(u)
+  assert bool(v) == v, repr(v)
+  assert 0 <= a < 0x10, repr(a)
+  assert 0 <= b < 0x10, repr(b)
+  assert 0 <= abs(offset) < 2**20, repr(offset)
+  return bint(
+    (1 << 31) + 
+    (u << 29) +
+    (v << 28) +
+    (a << 24) +
+    (b << 20) +
+    signed(offset, 20)
     )
 
 
